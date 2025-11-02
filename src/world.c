@@ -34,7 +34,7 @@ void render_world2D(Game* game, World* world){
 void draw_rays3D(Game* game, World* world, Player* player){
 	int dof;
 	float ray_x, ray_y, x_offset, y_offset;
-	float ray_angle = player->angle;// - DEG_RAD*30;
+	float ray_angle = player->angle;// - (DEG_RAD*10);
 	int map_x, map_y;
 	for(int i = 0; i < 1; i++){
 		dof = 0;
@@ -57,8 +57,8 @@ void draw_rays3D(Game* game, World* world, Player* player){
 			dof = 8;
 		}
 		while(dof < 8){
-			map_x = (int)ray_x/64;
-			map_y = (int)ray_y/64;
+			map_x = ((int)ray_x)/64;
+			map_y = ((int)ray_y)/64;
 			if(map_x >= 0 && map_x < 63 && map_y >= 0 && map_y < 63 && world->map[map_y][map_x] == 1){
 				dof = 8;
 			} else {
@@ -81,7 +81,7 @@ void draw_rays3D(Game* game, World* world, Player* player){
 			y_offset = -x_offset * nTan;
 		}
 		if(ray_angle < M_PI/2 || ray_angle > (3*M_PI)/2){
-			ray_x = (((int)player->x/64)*6)+64;
+			ray_x = (((int)player->x/64)*64)+64;
 			ray_y = (player->x - ray_x) * nTan + player->y;
 			x_offset = 64;
 			y_offset = -x_offset * nTan;
@@ -92,8 +92,8 @@ void draw_rays3D(Game* game, World* world, Player* player){
 			dof = 8;
 		}
 		while(dof < 8){
-			map_x = (int)ray_x/64;
-			map_y = (int)ray_y/64;
+			map_x = ((int)ray_x)/64;
+			map_y = ((int)ray_y)/64;
 			if(map_x >= 0 && map_x < 63 && map_y >= 0 && map_y < 63 && world->map[map_y][map_x] == 1){
 				dof = 8;
 			} else {
