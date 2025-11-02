@@ -24,8 +24,8 @@ Player new_player(Game* game){
 }
 
 void control_player(Game* game, Player* player){
-	float local_y_axis = player->angle * (M_PI / 180.0);
-	float local_x_axis = (player->angle + 90) * (M_PI / 180.0);
+	float local_y_axis = player->angle;
+	float local_x_axis = player->angle + M_PI/2;
 	if(game->keystates[SDL_SCANCODE_W]){
 		player->x_vel += cos(local_y_axis);
 		player->y_vel += sin(local_y_axis);
@@ -43,14 +43,14 @@ void control_player(Game* game, Player* player){
 		player->y_vel += sin(local_x_axis);
 	}
 	if(game->keystates[SDL_SCANCODE_K]){
-		player->angle -= 1;
+		player->angle -= 0.1;
 		if(player->angle < 0){
-			player->angle = 360;
+			player->angle = 2*M_PI;
 		}
 	}
 	if(game->keystates[SDL_SCANCODE_L]){
-		player->angle += 1;
-		if(player->angle > 360){
+		player->angle += 0.1;
+		if(player->angle > 2*M_PI){
 			player->angle = 0;
 		}
 	}
@@ -78,6 +78,6 @@ void control_player(Game* game, Player* player){
 }
 
 void render_player(Game* game, Player* player){
-	rotate_img(&player->sprite, player->angle);
+	rotate_img(&player->sprite, player->angle * (180 / M_PI));
 	render_img(game->rend, &player->sprite, player->x, player->y, 32, 32);
 }

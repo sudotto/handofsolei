@@ -8,7 +8,7 @@ typedef struct {
 	float y;
 	float x_vel;
 	float y_vel;
-	int angle;
+	float angle;
 	float spd;
 	Img sprite;
 } Player;
