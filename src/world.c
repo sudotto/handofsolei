@@ -94,7 +94,7 @@ void draw_rays3D(Game* game, World* world, Player* player){
 		while(dof < 8){
 			map_x = (int)ray_x/64;
 			map_y = (int)ray_y/64;
-			if(map_x >= 0 && map_x < 64 && map_y >= 0 && map_y < 64 && world->map[map_y][map_x] == 1){
+			if(map_x >= 0 && map_x < 63 && map_y >= 0 && map_y < 63 && world->map[map_y][map_x] == 1){
 				dof = 8;
 			} else {
 				ray_x += x_offset;
