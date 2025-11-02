@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
 	Player player = new_player(&game);
 	while(game.running){
 		game.frame_start = SDL_GetTicks();
-		clear_game(&game, 0, 0, 0);
+		clear_game(&game, 0, 0, 0, 255);
 
 		while(get_game_events(&game)){
 			switch(game.event.type){
@@ -36,7 +36,8 @@ int main(int argc, char* argv[]){
 			}
 		}
 		control_player(&game, &player);
-
+		
+		draw_rays3D(&game, &world, &player);
 		render_world2D(&game, &world);
 		render_player(&game, &player);
 

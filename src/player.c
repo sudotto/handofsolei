@@ -13,9 +13,12 @@
 
 Player new_player(Game* game){
 	Player player;
-	player.spd = 10;
+	player.x = 0;
+	player.y = 0;
 	player.x_vel = 0;
 	player.y_vel = 0;
+	player.angle = 0;
+	player.spd = 10;
 	player.sprite = new_img(game->rend, "assets/player/debug.png", 1);
 	return player;
 }

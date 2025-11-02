@@ -9,8 +9,8 @@ typedef struct {
 	float x_vel;
 	float y_vel;
 	int angle;
-	Img sprite;
 	float spd;
+	Img sprite;
 } Player;
 
 Player new_player(Game* game);

@@ -5,8 +5,14 @@
 #include <stdbool.h>
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_audio.h>
 #include <SDL3/SDL_keyboard.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
+// Otto-game:
+// because sdl is a shitty esoteric inbred pile of diseased badly documented gas soaked and burning shit
+// (its not that bad im just fucking stupid :) )
 
 ///////////////////
 // BAR
@@ -19,6 +25,23 @@ void render_bar(SDL_Renderer* rend, float val, int max, int x, int y, int w, int
 ///////////////////
 
 int gen_rand(int min, int max);
+
+typedef struct {
+	int x;
+	int y;
+} Point;
+
+typedef struct {
+	int x;
+	int y;
+	int w;
+	int h;
+} Rect;
+
+bool point_in_rect(Point point, Rect rect);
+bool rect_in_rect(Rect rect, Rect rect2);
+float dist(float x_dist, float y_dist);
+void draw_line(SDL_Renderer* rend, Point p1, Point p2, int r, int g, int b, int a);
 
 ///////////////////
 // CAMERA
@@ -51,6 +74,7 @@ void crop_img(Img* img, int x, int y, int w, int h);
 void flip_img(Img* img, bool flipped);
 void rotate_img(Img* img, int angle);
 void recolor_img(Img* img, SDL_Renderer* rend, SDL_Color target, SDL_Color replace);
+void set_img_alpha(Img* img, int alpha);
 void render_img(SDL_Renderer* rend, Img *img, int x, int y, int w, int h);
 
 ///////////////////
@@ -68,12 +92,42 @@ void render_anim(SDL_Renderer* rend, Anim* anim, int x, int y, int w, int h, flo
 void del_anim(Anim* anim);
 
 ///////////////////
+// SOUNDS 
+///////////////////
+
+typedef struct {
+	uint8_t* wav_data;
+	uint32_t wav_data_len;
+	SDL_AudioSpec spec;
+	SDL_AudioStream* stream;
+} Sound;
+
+Sound new_sound(char* filename);
+void play_sound(Sound* sound);
+void stop_sound(Sound* sound);
+void quick_sound(char* filename);
+
+///////////////////
+// TEXT
+///////////////////
+
+typedef struct {
+	int len;
+	SDL_Surface* surf;
+	SDL_Texture* tex;
+} Text;
+
+Text new_text(SDL_Renderer* rend, char* msg);
+void render_text(Text* text, SDL_Renderer* rend, int x, int y, int c_w, int c_h);
+
+///////////////////
 // GAME
 ///////////////////
 
 typedef struct {
 	SDL_Window* win;
 	SDL_Renderer* rend;
+	//TTF_TextEngine* text_eng;
 	SDL_Event event;
 	Img icon;
 	Img cursor;
@@ -91,7 +145,8 @@ Game new_game(char* title, int w, int h);
 void cap_game_framerate(Game* game, Uint8 fps);
 bool get_game_events(Game* game);
 void render_game_cursor(Game* game, int w, int h);
-void clear_game(Game* game, Uint8 r, Uint8 g, Uint8 b);
+void fill_game(Game* game, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+void clear_game(Game* game, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void update_game(Game* game);
 void destroy_game(Game* game);
 
